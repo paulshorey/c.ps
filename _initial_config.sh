@@ -1,3 +1,35 @@
+sudo apt update;
+sudo apt install nginx;
+
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+echo "
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    server_name c.paulshorey.com;
+    root /www/c.ps/app;
+
+    index index.html;
+
+    location / {
+            try_files $uri $uri/ =400;
+    }
+    
+    location ~ /\.well-known/acme-challenge {
+		default_type 'text/plain';
+		root /www/sslcert; #or wherever dir
+		try_files /$uri /;
+	}
+}
+" >> /etc/nginx/sites-available/default
+
+sudo nginx -t
+sudo systemctl restart nginx
+
+
 ###
 # /etc/crontab
 ###

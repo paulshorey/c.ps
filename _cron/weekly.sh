@@ -1,7 +1,8 @@
 #!/bin/bash
 
-sudo /opt/letsencrypt/letsencrypt-auto renew
-/etc/init.d/nginx reload
+sudo certbot renew
+
+sudo systemctl restart nginx
 
 
 
